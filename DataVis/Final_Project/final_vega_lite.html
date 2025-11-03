@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Vega-Lite Starter</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@6.1.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@6.2.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@7.0.2"></script>
+  </head>
+  <body>
+    <div id="vis1"></div>
+
+    <script type="text/javascript">
+      var yourVlSpec1 = {
+        "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+        "title": "",
+        "description": "",
+        "data": {
+          "url": ""
+        },
+        "transform": [
+          {"fold": [], "as": []}
+        ],
+        "mark": "",
+        "encoding": {
+          "x": {"field": "", "type": "", "axis": {"title": ""}},
+          "y": {"field": "", "type": "", "axis": {"title": ""}},
+          "color": {
+            "field": "", "type": "", "title": "",
+            "scale": {
+              "domain": [],
+              "range": []
+            }
+          }
+        }
+      };
+      
+      vegaEmbed('#vis1', yourVlSpec1);
+    </script>
+  </body>
+</html>

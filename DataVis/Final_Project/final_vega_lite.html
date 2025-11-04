@@ -1,40 +1,130 @@
 <!doctype html>
 <html>
   <head>
-    <title>Vega-Lite Starter</title>
-    <script src="https://cdn.jsdelivr.net/npm/vega@6.1.2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-lite@6.2.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-embed@7.0.2"></script>
+    <title>Premier League Visualization</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
   </head>
   <body>
     <div id="vis1"></div>
 
     <script type="text/javascript">
-      var yourVlSpec1 = {
-        "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-        "title": "",
-        "description": "",
-        "data": {
-          "url": ""
-        },
-        "transform": [
-          {"fold": [], "as": []}
-        ],
-        "mark": "",
-        "encoding": {
-          "x": {"field": "", "type": "", "axis": {"title": ""}},
-          "y": {"field": "", "type": "", "axis": {"title": ""}},
-          "color": {
-            "field": "", "type": "", "title": "",
-            "scale": {
-              "domain": [],
-              "range": []
-            }
+      var spec = {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+        "params": [
+          {
+            "name": "gameweek",
+            "value": 1,
+            "bind": {"input": "range", "min": 1, "max": 38, "step": 1}
           }
-        }
+        ],
+
+        "hconcat": [
+          {
+            "data": {
+              "values": [
+                {"index": 1, "url": "PremTables/GW1.png"},
+                {"index": 2, "url": "PremTables/GW2.png"},
+                {"index": 3, "url": "PremTables/GW3.png"},
+                {"index": 4, "url": "PremTables/GW4.png"},
+                {"index": 5, "url": "PremTables/GW5.png"},
+                {"index": 6, "url": "PremTables/GW6.png"},
+                {"index": 7, "url": "PremTables/GW7.png"},
+                {"index": 8, "url": "PremTables/GW8.png"},
+                {"index": 9, "url": "PremTables/GW9.png"},
+                {"index": 10, "url": "PremTables/GW10.png"},
+                {"index": 11, "url": "PremTables/GW11.png"},
+                {"index": 12, "url": "PremTables/GW12.png"},
+                {"index": 13, "url": "PremTables/GW13.png"},
+                {"index": 14, "url": "PremTables/GW14.png"},
+                {"index": 15, "url": "PremTables/GW15.png"},
+                {"index": 16, "url": "PremTables/GW16.png"},
+                {"index": 17, "url": "PremTables/GW17.png"},
+                {"index": 18, "url": "PremTables/GW18.png"},
+                {"index": 19, "url": "PremTables/GW19.png"},
+                {"index": 20, "url": "PremTables/GW20.png"},
+                {"index": 21, "url": "PremTables/GW21.png"},
+                {"index": 22, "url": "PremTables/GW22.png"},
+                {"index": 23, "url": "PremTables/GW23.png"},
+                {"index": 24, "url": "PremTables/GW24.png"},
+                {"index": 25, "url": "PremTables/GW25.png"},
+                {"index": 26, "url": "PremTables/GW26.png"},
+                {"index": 27, "url": "PremTables/GW27.png"},
+                {"index": 28, "url": "PremTables/GW28.png"},
+                {"index": 29, "url": "PremTables/GW29.png"},
+                {"index": 30, "url": "PremTables/GW30.png"},
+                {"index": 31, "url": "PremTables/GW31.png"},
+                {"index": 32, "url": "PremTables/GW32.png"},
+                {"index": 33, "url": "PremTables/GW33.png"},
+                {"index": 34, "url": "PremTables/GW34.png"},
+                {"index": 35, "url": "PremTables/GW35.png"},
+                {"index": 36, "url": "PremTables/GW36.png"},
+                {"index": 37, "url": "PremTables/GW37.png"},
+                {"index": 38, "url": "PremTables/GW38.png"}
+              ]
+            },
+            "mark": {"type": "image", "width": 800, "height": 550},
+            "encoding": {
+              "url": {"field": "url"},
+              "opacity": {
+                "condition": {"test": "datum.index == gameweek", "value": 1},
+                "value": 0
+              }
+            }
+          },
+
+          {
+            "title": "Premier League Positions Over Time",
+            "width": 700,
+            "height": 550,
+            "data": {"url": "PremierLeague24_25(Positions).csv"},
+            "layer": [
+              {
+                "params": [
+                  {
+                    "name": "teamSelect",
+                    "select": {"type": "point", "fields": ["Team"]},
+                    "bind": "legend"
+                  }
+                ],
+                "mark": "line",
+                "encoding": {
+                  "x": {"field": "Gameweek", "type": "quantitative", "range":[1,38]},
+                  "y": {"field": "Position", "type": "quantitative", "scale": {"reverse": true}},
+                  "color": {
+                    "condition": {
+                      "param": "teamSelect",
+                      "field": "Team",
+                      "type": "nominal"
+                    },
+                    "value": "lightgray"
+                  },
+                  "opacity": {
+                    "condition": {"param": "teamSelect", "value": 1},
+                    "value": 0.3
+                  },
+                  "tooltip": [
+                    {"field": "Team"},
+                    {"field": "Position"},
+                    {"field": "Gameweek"}
+                  ]
+                }
+              },
+              {
+                "mark": {"type": "rule", "color": "black", "strokeDash": [4,8], "size": 2},
+                "transform": [{"calculate": "gameweek", "as": "ruleX"}],
+                "encoding": {
+                  "x": {"field": "ruleX", "type": "quantitative", "axis": {"title": "Gameweek"}}
+                }
+              }
+            ]
+          }
+        ]
       };
-      
-      vegaEmbed('#vis1', yourVlSpec1);
+
+      vegaEmbed("#vis1", spec);
     </script>
   </body>
 </html>

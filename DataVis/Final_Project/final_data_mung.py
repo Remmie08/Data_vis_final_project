@@ -3,6 +3,7 @@ import numpy as np
 
 positions_df = pd.read_csv("PremierLeague24_25(Positions).csv")
 old_positions_df = pd.read_csv("PremierLeague24_25(Old_Positions).csv")
+goals_df = pd.read_csv("PremierLeague24_25(Goals).csv", encoding="latin-1")
 
 print(positions_df.head())
 print(old_positions_df.head()) 
@@ -59,7 +60,15 @@ GW_old_positions_df = old_positions_df.rename(columns=column_mapping)
 #gameweek (GW) is its own column
 print(GW_old_positions_df.head())
 
+#code for data munging the goals csv file
+goals_df["Goals"] = 1
+teams_goals = goals_df.groupby("Team")["Goals"].sum().reset_index()
+player_goals = goals_df.groupby(["Team", "Scorer"])["Goals"].sum().reset_index()
+
+
 
 positions_df.to_csv("PremierLeague24_25(Clean_Positions).csv", index=False)
 old_positions_df.to_csv("PremierLeague24_25(Clean_Old_Positions).csv", index=False)
 GW_old_positions_df.to_csv("PremierLeague24_25(Clean_GW_Old_Positions).csv", index=False)
+teams_goals.to_csv("PremierLeague24_25(Teams_Goals).csv", index=False)
+player_goals.to_csv("PremierLeague24_25(Player_Goals).csv", index=False)

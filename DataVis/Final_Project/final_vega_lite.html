@@ -8,6 +8,7 @@
   </head>
   <body>
     <div id="vis1"></div>
+    <div id="vis2"></div>
 
     <script type="text/javascript">
       var spec = {
@@ -65,7 +66,7 @@
                 {"index": 38, "url": "PremTables/GW38.png"}
               ]
             },
-            "mark": {"type": "image", "width": 800, "height": 550},
+            "mark": {"type": "image", "width": 800, "height": 600},
             "encoding": {
               "url": {"field": "url"},
               "opacity": {
@@ -77,8 +78,8 @@
 
           {
             "title": "Premier League Positions Over Time",
-            "width": 700,
-            "height": 550,
+            "width": 800,
+            "height": 600,
             "data": {"url": "PremierLeague24_25(Positions).csv"},
             "layer": [
               {
@@ -121,10 +122,63 @@
               }
             ]
           }
-        ]
+        ],
+      };
+
+      var spec1 = {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "hconcat": [
+          {
+            "title": "Premier League Team Total Goals",
+            "width": 800,
+            "height": 600,
+            "data": {"url": "PremierLeague24_25(Teams_Goals).csv"},
+            "params": [
+              {
+                "name": "teamSelect",
+                "select": {"type": "point", "fields": ["Team"], "on": "click", "empty": "none"}
+              }
+            ],
+            "mark": "bar",
+            "encoding": {
+              "y": {"field": "Team", "type": "nominal", "sort": "-x"},
+              "x": {"field": "Goals", "type": "quantitative"},
+              "color": {
+                "condition": {
+                  "param": "teamSelect",
+                  "field": "Team",
+                  "type": "nominal"
+                },
+                "value": "lightgray"
+              },
+              "opacity": {
+                "condition": {"param": "teamSelect", "value": 1},
+                "value": 0.3
+              },
+            }
+          },
+
+          {
+            "title": "Premier League Team Total Goals",
+            "width": 800,
+            "height": 600,
+            "data": {"url": "PremierLeague24_25(Player_Goals).csv"},
+            "transform": [
+            {"filter": {"param": "teamSelect"}}
+            ],
+            "mark": "bar",
+            "encoding": {
+              "y": {"field": "Scorer", "type": "nominal", "sort": "-x"},
+              "x": {"field": "Goals", "type": "quantitative"},
+              "color": {"value": "steelblue"}
+            }
+          },
+        ],
       };
 
       vegaEmbed("#vis1", spec);
+      vegaEmbed("#vis2", spec1)
+
     </script>
   </body>
 </html>

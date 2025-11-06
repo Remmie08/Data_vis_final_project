@@ -7,8 +7,8 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
   </head>
   <body>
-    <div id="vis1"></div>
-    <div id="vis2"></div>
+    <div id="vis1" style="height:100vh; width:100vw;"></div>
+    <div id="vis2" style="height:100vh; width:100vw;"></div>
 
     <script type="text/javascript">
       var spec = {
@@ -16,7 +16,7 @@
 
         "params": [
           {
-            "name": "gameweek",
+            "name": "Gameweek",
             "value": 1,
             "bind": {"input": "range", "min": 1, "max": 38, "step": 1}
           }
@@ -26,49 +26,49 @@
           {
             "data": {
               "values": [
-                {"index": 1, "url": "PremTables/GW1.png"},
-                {"index": 2, "url": "PremTables/GW2.png"},
-                {"index": 3, "url": "PremTables/GW3.png"},
-                {"index": 4, "url": "PremTables/GW4.png"},
-                {"index": 5, "url": "PremTables/GW5.png"},
-                {"index": 6, "url": "PremTables/GW6.png"},
-                {"index": 7, "url": "PremTables/GW7.png"},
-                {"index": 8, "url": "PremTables/GW8.png"},
-                {"index": 9, "url": "PremTables/GW9.png"},
-                {"index": 10, "url": "PremTables/GW10.png"},
-                {"index": 11, "url": "PremTables/GW11.png"},
-                {"index": 12, "url": "PremTables/GW12.png"},
-                {"index": 13, "url": "PremTables/GW13.png"},
-                {"index": 14, "url": "PremTables/GW14.png"},
-                {"index": 15, "url": "PremTables/GW15.png"},
-                {"index": 16, "url": "PremTables/GW16.png"},
-                {"index": 17, "url": "PremTables/GW17.png"},
-                {"index": 18, "url": "PremTables/GW18.png"},
-                {"index": 19, "url": "PremTables/GW19.png"},
-                {"index": 20, "url": "PremTables/GW20.png"},
-                {"index": 21, "url": "PremTables/GW21.png"},
-                {"index": 22, "url": "PremTables/GW22.png"},
-                {"index": 23, "url": "PremTables/GW23.png"},
-                {"index": 24, "url": "PremTables/GW24.png"},
-                {"index": 25, "url": "PremTables/GW25.png"},
-                {"index": 26, "url": "PremTables/GW26.png"},
-                {"index": 27, "url": "PremTables/GW27.png"},
-                {"index": 28, "url": "PremTables/GW28.png"},
-                {"index": 29, "url": "PremTables/GW29.png"},
-                {"index": 30, "url": "PremTables/GW30.png"},
-                {"index": 31, "url": "PremTables/GW31.png"},
-                {"index": 32, "url": "PremTables/GW32.png"},
-                {"index": 33, "url": "PremTables/GW33.png"},
-                {"index": 34, "url": "PremTables/GW34.png"},
-                {"index": 35, "url": "PremTables/GW35.png"},
-                {"index": 36, "url": "PremTables/GW36.png"},
-                {"index": 37, "url": "PremTables/GW37.png"},
-                {"index": 38, "url": "PremTables/GW38.png"}
+                {"index": 1, "url": "images/PremTables/GW1.png"},
+                {"index": 2, "url": "images/PremTables/GW2.png"},
+                {"index": 3, "url": "images/PremTables/GW3.png"},
+                {"index": 4, "url": "images/PremTables/GW4.png"},
+                {"index": 5, "url": "images/PremTables/GW5.png"},
+                {"index": 6, "url": "images/PremTables/GW6.png"},
+                {"index": 7, "url": "images/PremTables/GW7.png"},
+                {"index": 8, "url": "images/PremTables/GW8.png"},
+                {"index": 9, "url": "images/PremTables/GW9.png"},
+                {"index": 10, "url": "images/PremTables/GW10.png"},
+                {"index": 11, "url": "images/PremTables/GW11.png"},
+                {"index": 12, "url": "images/PremTables/GW12.png"},
+                {"index": 13, "url": "images/PremTables/GW13.png"},
+                {"index": 14, "url": "images/PremTables/GW14.png"},
+                {"index": 15, "url": "images/PremTables/GW15.png"},
+                {"index": 16, "url": "images/PremTables/GW16.png"},
+                {"index": 17, "url": "images/PremTables/GW17.png"},
+                {"index": 18, "url": "images/PremTables/GW18.png"},
+                {"index": 19, "url": "images/PremTables/GW19.png"},
+                {"index": 20, "url": "images/PremTables/GW20.png"},
+                {"index": 21, "url": "images/PremTables/GW21.png"},
+                {"index": 22, "url": "images/PremTables/GW22.png"},
+                {"index": 23, "url": "images/PremTables/GW23.png"},
+                {"index": 24, "url": "images/PremTables/GW24.png"},
+                {"index": 25, "url": "images/PremTables/GW25.png"},
+                {"index": 26, "url": "images/PremTables/GW26.png"},
+                {"index": 27, "url": "images/PremTables/GW27.png"},
+                {"index": 28, "url": "images/PremTables/GW28.png"},
+                {"index": 29, "url": "images/PremTables/GW29.png"},
+                {"index": 30, "url": "images/PremTables/GW30.png"},
+                {"index": 31, "url": "images/PremTables/GW31.png"},
+                {"index": 32, "url": "images/PremTables/GW32.png"},
+                {"index": 33, "url": "images/PremTables/GW33.png"},
+                {"index": 34, "url": "images/PremTables/GW34.png"},
+                {"index": 35, "url": "images/PremTables/GW35.png"},
+                {"index": 36, "url": "images/PremTables/GW36.png"},
+                {"index": 37, "url": "images/PremTables/GW37.png"},
+                {"index": 38, "url": "images/PremTables/GW38.png"}
               ]
             },
             "mark": {
               "type": "image", 
-              "width": 800, 
+              "width": 650, 
               "height": 600,
               "x": 0,
               "y": 0,
@@ -78,7 +78,7 @@
             "encoding": {
               "url": {"field": "url"},
               "opacity": {
-                "condition": {"test": "datum.index == gameweek", "value": 1},
+                "condition": {"test": "datum.index == Gameweek", "value": 1},
                 "value": 0
               }
             }
@@ -86,7 +86,7 @@
 
           {
             "title": "Premier League Positions Over Time",
-            "width": 800,
+            "width": 650,
             "height": 600,
             "data": {"url": "csv_files/PremierLeague24_25(Positions).csv"},
             "layer": [
@@ -98,32 +98,32 @@
                     "bind": "legend"
                   }
                 ],
-                "mark": "line",
+                "mark": {"type":"line", "point": true},
                 "encoding": {
                   "x": {"field": "Gameweek", "type": "quantitative", "range":[1,38]},
                   "y": {"field": "Position", "type": "quantitative", "scale": {"reverse": true}},
                   "color": {
-                    "condition": {
-                      "param": "teamSelect",
-                      "field": "Team",
-                      "type": "nominal"
-                    },
-                    "value": "lightgray"
+                    "field":"Team", 
+                    "type":"nominal", 
+                    "scale":{"scheme":"category20"},
+                    "condition": {"param": "teamSelect", "field": "Team", "type": "nominal"},
+                    "value": "lightgray",
+                    "legend": {"title": "Team (click to select)"}
                   },
                   "opacity": {
                     "condition": {"param": "teamSelect", "value": 1},
-                    "value": 0.3
+                    "value": 0.1
                   },
                   "tooltip": [
                     {"field": "Team"},
                     {"field": "Position"},
                     {"field": "Gameweek"}
-                  ]
+                  ],
                 }
               },
               {
                 "mark": {"type": "rule", "color": "black", "strokeDash": [4,8], "size": 2},
-                "transform": [{"calculate": "gameweek", "as": "ruleX"}],
+                "transform": [{"calculate": "Gameweek", "as": "ruleX"}],
                 "encoding": {
                   "x": {"field": "ruleX", "type": "quantitative", "axis": {"title": "Gameweek"}}
                 }
@@ -144,7 +144,7 @@
             "params": [
               {
                 "name": "teamSelect",
-                "select": {"type": "point", "fields": ["Team"], "on": "click", "empty": "none"}
+                "select": {"type": "point", "fields": ["Team"], "on": "click"}
               }
             ],
             "mark": "bar",
@@ -156,6 +156,7 @@
                   "param": "teamSelect",
                   "field": "Team",
                   "type": "nominal",
+                  "scale": {"scheme": "category20"},
                   "legend": null
                 },
                 "value": "lightgray"
@@ -163,17 +164,19 @@
               "opacity": {
                 "condition": {"param": "teamSelect", "value": 1},
                 "value": 0.3
-              },
-            },
+              }
+            }
           },
 
           {
-            "title": "Premier League Team Total Goals",
+            "title": "Team Goal Scorers",
             "width": 650,
             "height": 600,
             "data": {"url": "csv_files/PremierLeague24_25(Player_Goals).csv"},
             "transform": [
-            {"filter": {"param": "teamSelect"}}
+              {
+                "filter": "teamSelect.Team ? datum.Team == teamSelect.Team : false"
+              }
             ],
             "mark": "bar",
             "encoding": {
@@ -181,8 +184,8 @@
               "x": {"field": "Goals", "type": "quantitative"},
               "color": {"value": "steelblue"}
             }
-          },
-        ],
+          }
+        ]
       };
 
       vegaEmbed("#vis1", spec);

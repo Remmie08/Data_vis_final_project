@@ -20,9 +20,10 @@ if 'Opponent' in goals_df.columns:
 
 #OPPOSITION SCORES (Head-to-Head)
 if 'Opponent' in goals_df.columns:
-    opposition_scores = goals_df.groupby(["Team", "Opponent"])["Goals"].sum().reset_index()
-    opposition_scores.columns = ["Team", "Opponent", "Goals_Scored"]
-    opposition_scores.to_csv("PremierLeague24_25(Opposition_Scores).csv", index=False)
+    opposition_scores = goals_df.groupby(["Team", "Opponent", "Round"])["Goals"].sum().reset_index()
+    opposition_scores.columns = ["Team", "Opponent", "Gameweek", "Goals_Scored"]
+    opposition_scores = opposition_scores.sort_values(["Team", "Gameweek"])
+    opposition_scores.to_csv("csv_files/PremierLeague24_25(Opposition_Scores).csv", index=False)
 
 if 'Gameweek' in goals_df.columns and 'Opponent' in goals_df.columns:
     goals_conceded_gw = goals_df.groupby(["Opponent", "Gameweek"])["Goals"].sum().reset_index()

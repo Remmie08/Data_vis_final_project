@@ -138,7 +138,7 @@
         "hconcat": [
           {
             "title": "Premier League Team Total Goals",
-            "width": 650,
+            "width": 400,
             "height": 600,
             "data": {"url": "csv_files/PremierLeague24_25(Teams_Goals).csv"},
             "params": [
@@ -170,7 +170,7 @@
 
           {
             "title": "Team Goal Scorers",
-            "width": 650,
+            "width": 400,
             "height": 600,
             "data": {"url": "csv_files/PremierLeague24_25(Player_Goals).csv"},
             "transform": [
@@ -184,6 +184,39 @@
               "x": {"field": "Goals", "type": "quantitative"},
               "color": {"value": "steelblue"}
             }
+          },
+
+          {
+            "title": "Premier League Positions Over Time",
+            "width": 400,
+            "height": 600,
+            "data": {"url": "csv_files/PremierLeague24_25(Player_Goals).csv"},
+            "layer": [
+              {
+                "mark": {"type":"line", "point": true},
+                "encoding": {
+                  "x": {"field": "Gameweek", "type": "quantitative", "range":[1,38]},
+                  "y": {"field": "Goals", "type": "quantitative"},
+                  "color": {
+                    "field": "Team", 
+                    "type": "nominal",
+                    "scale": {"scheme": "category20"},
+                    "condition": {"param": "teamSelect", "field": "Team", "type": "nominal"},
+                    "value": "lightgray",
+                    "legend": {"title": "Team (click to select)"}
+                  },
+                  "opacity": {
+                    "condition": {"param": "teamSelect", "value": 1},
+                    "value": 0.1
+                  },
+                  "tooltip": [
+                    {"field": "Team"},
+                    {"field": "Position"},
+                    {"field": "Gameweek"}
+                  ],
+                }
+              },
+            ]
           }
         ]
       };

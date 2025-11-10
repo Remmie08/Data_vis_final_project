@@ -7,8 +7,11 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
   </head>
   <body>
+    <h2>Premier League 24/25 Positions by Gameweek</h2>
     <div id="vis1" style="height:100vh; width:100vw;"></div>
+    <h2>Premier League 24/25 Goals Scored Breakdown</h2>
     <div id="vis2" style="height:100vh; width:100vw;"></div>
+    <h2>Premier League 24/25 Goals Conceded Breakdown</h2>
     <div id="vis3" style="height:100vh; width:100vw;"></div>
 
     <script type="text/javascript">
@@ -101,7 +104,7 @@
                 ],
                 "mark": {"type":"line", "point": true},
                 "encoding": {
-                  "x": {"field": "Gameweek", "type": "quantitative", "range":[1,38]},
+                  "x": {"field": "Gameweek", "type": "quantitative", "scale": {"domain": [1, 38]}},
                   "y": {"field": "Position", "type": "quantitative", "scale": {"reverse": true}},
                   "color": {
                     "field":"Team", 
@@ -113,7 +116,7 @@
                   },
                   "opacity": {
                     "condition": {"param": "teamSelect", "value": 1},
-                    "value": 0.1
+                    "value": 0.05
                   },
                   "tooltip": [
                     {"field": "Team"},
@@ -139,19 +142,26 @@
         "hconcat": [
           {
             "title": "Premier League Team Total Goals",
-            "width": 400,
+            "width": 380,
             "height": 600,
             "data": {"url": "csv_files/PremierLeague24_25(Teams_Goals).csv"},
             "params": [
               {
                 "name": "teamSelect",
                 "select": {"type": "point", "fields": ["Team"], "on": "click"}
+              },
+              {
+                "name": "hoverTeam",
+                "select": {"type": "point", "on": "mouseover", "clear": "mouseout"}
               }
             ],
-            "mark": "bar",
+            "mark": {
+              "type": "bar",
+              "cursor": "pointer"
+            },
             "encoding": {
               "y": {"field": "Team", "type": "nominal", "sort": "-x"},
-              "x": {"field": "Goals", "type": "quantitative"},
+              "x": {"field": "Goals", "type": "quantitative", "title":"Goals Scored"},
               "color": {
                 "condition": {
                   "param": "teamSelect",
@@ -162,16 +172,27 @@
                 },
                 "value": "lightgray"
               },
+              "stroke": {
+                "condition": {"param": "hoverTeam", "value": "black"},
+                "value": null
+              },
+              "strokeWidth": {
+                "condition": {"param": "hoverTeam", "value": 2},
+                "value": null
+              },
               "opacity": {
                 "condition": {"param": "teamSelect", "value": 1},
                 "value": 0.3
-              }
-            }
+              },
+              "tooltip": [
+                {"field": "Team"},
+                {"field": "Goals"}
+              ]
+            },
           },
-
           {
-            "title": "Team Goal Scorers",
-            "width": 400,
+            "title": "Selected Team Goal Scorers",
+            "width": 380,
             "height": 600,
             "data": {"url": "csv_files/PremierLeague24_25(Player_Goals).csv"},
             "transform": [
@@ -183,125 +204,181 @@
             "encoding": {
               "y": {"field": "Scorer", "type": "nominal", "sort": "-x"},
               "x": {"field": "Goals", "type": "quantitative"},
-              "color": {"value": "steelblue"}
-            }
+              "color": {
+                "scale": {"scheme": "category20"}, 
+                "field": "Team", 
+                "type": "nominal", 
+                "legend": null
+              },
+              "tooltip": [
+                {"field": "Scorer"},
+                {"field": "Goals"}
+              ]
+            },
           },
 
           {
-            "title": "Premier League Positions Over Time",
-            "width": 400,
+            "title": "Selected Team Goals Scored by Matchweek",
+            "width": 380,
             "height": 600,
-            "data": {"url": "csv_files/PremierLeague24_25(Player_Goals).csv"},
-            "layer": [
-              {
-                "mark": {"type":"line", "point": true},
-                "encoding": {
-                  "x": {"field": "Gameweek", "type": "quantitative", "range":[1,38]},
-                  "y": {"field": "Goals", "type": "quantitative"},
-                  "color": {
-                    "field": "Team", 
-                    "type": "nominal",
-                    "scale": {"scheme": "category20"},
-                    "condition": {"param": "teamSelect", "field": "Team", "type": "nominal"},
-                    "value": "lightgray",
-                    "legend": {"title": "Team (click to select)"}
-                  },
-                  "opacity": {
-                    "condition": {"param": "teamSelect", "value": 1},
-                    "value": 0.1
-                  },
-                  "tooltip": [
-                    {"field": "Team"},
-                    {"field": "Position"},
-                    {"field": "Gameweek"}
-                  ],
-                }
+            "data": {"url": "csv_files/PremierLeague24_25(Goals_Scored_By_Gameweek).csv"},
+            "transform": [
+              {"filter": "teamSelect.Team && datum.Team == teamSelect.Team[0]"}
+            ],
+            "mark": {"type": "line", "point": true},
+            "encoding": {
+              "x": {"field": "Gameweek", "type": "quantitative", "axis": {"title": "Gameweek"}},
+              "y": {"field": "Total_Goals", "type": "quantitative", "axis": {"title": "Total Goals Scored"}},
+              "color": {
+                "condition": {
+                  "param": "teamSelect",
+                  "field": "Team",
+                  "type": "nominal",
+                  "scale": {"scheme": "category20"}
+                },
+                "value": "lightgray"
               },
-            ]
+              "tooltip": [
+                {"field": "Gameweek"},
+                {"field": "Goals", "title": "Goals this GW"},
+                {"field": "Total_Goals", "title": "Total Goals"}
+              ]
+            }
+          },
+          {
+            "width": 200,
+            "height": 600,
+            "data": {"values": []},
+            "mark": {"type": "text"},
+            "encoding": {}
           }
         ]
       };
+
       var spec2 = {
         "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
         "hconcat": [
           {
             "title": "Premier League Team Goals Conceded",
-            "width": 400,
-            "height": 400,
+            "width": 380,
+            "height": 600,
             "data": {"url": "csv_files/PremierLeague24_25(Goals_Conceded).csv"},
             "params": [
               {
                 "name": "teamSelect",
                 "select": {"type": "point", "fields": ["Team"], "on": "click"}
+              },
+              {
+                "name": "hoverTeam",
+                "select": {"type": "point", "on": "mouseover", "clear": "mouseout"}
               }
             ],
-            "mark": "bar",
+            "mark": {
+              "type": "bar",
+              "cursor": "pointer"
+            },
             "encoding": {
-              "y": {"field": "Team", "type": "nominal", "sort": "-x"},
-              "x": {"field": "Goals_Conceded", "type": "quantitative"},
+              "y": {"field": "Team", "type": "nominal", "sort": "x"},
+              "x": {"field": "Goals_Conceded", "type": "quantitative", "title":"Goals Conceded"},
               "color": {
                 "condition": {
                   "param": "teamSelect",
                   "field": "Team",
                   "type": "nominal",
                   "scale": {"scheme": "category20"},
-                  "legend": null
+                  "legend":null
                 },
-                "value": "lightgray"
+                "value": "lightgray",
+              },
+              "stroke": {
+                "condition": {"param": "hoverTeam", "value": "black"},
+                "value": null
+              },
+              "strokeWidth": {
+                "condition": {"param": "hoverTeam", "value": 2},
+                "value": null
               },
               "opacity": {
                 "condition": {"param": "teamSelect", "value": 1},
                 "value": 0.3
-              }
+              },
+              "tooltip": [
+                {"field": "Team"},
+                {"field": "Goals_Conceded", "title": "Goals Conceded"}
+              ]
             }
           },
 
           {
-            "title": "Teams That Scored Against Selected Team",
-            "width": 400,
-            "height": 400,
+            "title": "Opponent Team Totals Against Selected Team",
+            "width": 380,
+            "height": 600,
             "data": {"url": "csv_files/PremierLeague24_25(Opposition_Scores).csv"},
             "transform": [
               {
-                "filter": "teamSelect.Team && datum.Opponent == teamSelect.Team[0] "
+                "filter": "teamSelect.Team && datum.Opponent == teamSelect.Team[0]"
               }
             ],
             "mark": "bar",
             "encoding": {
-              "y": {"field": "Team", "type": "nominal", "sort": "-x", "axis": {"title": "Opponent Who Scored"}},
-              "x": {"field": "Goals_Scored", "type": "quantitative", "axis": {"title": "Goals"}},
-              "color": {"value": "steelblue"}
+              "y": {"field": "Team", "type": "nominal", "sort": "-x", "axis": {"title": "Opponent"}},
+              "x": {"field": "Goals_Scored", "type": "quantitative", "axis": {"title": "Goals"}, "aggregate": "sum"},
+              "color": {
+                "scale": {"scheme": "category20"}, 
+                "field": "Team", 
+                "type": "nominal", 
+                "legend": null
+              },
+              "tooltip": [
+                {"field": "Team", "type": "nominal"},
+                {"field": "Goals_Scored", "type": "quantitative", "aggregate": "sum", "title": "Goals Conceded"}
+              ]
             }
           },
+
           {
-            "title": "Goals Conceded by Matchweek",
-            "width": 400,
-            "height": 400,
-            "data": {"url": "csv_files/PremierLeague24_25(Goals_Conceded_By_Round).csv"},
+            "title": "Selected Team Goals Conceded by Matchweek",
+            "width": 380,
+            "height": 600,
+            "data": {"url": "csv_files/PremierLeague24_25(Goals_Conceded_By_Gameweek).csv"},
             "transform": [
-              {"filter": "teamSelect.Team && datum.Team == teamSelect.Team[0]"},
+              {"filter": "teamSelect.Team && datum.Team == teamSelect.Team[0]"}
             ],
             "mark": {"type": "line", "point": true},
             "encoding": {
-              "x": {
-                "field": "Round",
-                "type": "ordinal",
-                "axis": {"title": "MW"},
-                "sort": "ascending"
+              "x": {"field": "Gameweek", "type": "quantitative", "axis": {"title": "Gameweek"}},
+              "y": {"field": "Total_Goals_Conceded", "type": "quantitative", "axis": {"title": "Total Goals Conceded"}},
+              "color": {
+                "condition": {
+                  "param": "teamSelect",
+                  "field": "Team",
+                  "type": "nominal",
+                  "scale": {"scheme": "category20"}
+                },
+                "value": "lightgray",
               },
-              "y": {
-                "field": "Goals_Conceded",
-                "type": "quantitative",
-                "axis": {"title": "Goals Conceded"}
-              },
+              "tooltip": [
+                {"field": "Gameweek"},
+                {"field": "Goals_Conceded", "title": "Goals Conceded this GW"},
+                {"field": "Total_Goals_Conceded", "title": "Total Goals Conceded"}
+              ]
             }
+          },
+
+          {
+            "width": 200,
+            "height": 650,
+            "data": {"values": []},
+            "mark": {"type": "text"},
+            "encoding": {},
           }
         ]
       };
 
+      
       vegaEmbed("#vis1", spec);
-      vegaEmbed("#vis2", spec1)
-      vegaEmbed("#vis3", spec2)
+      vegaEmbed("#vis2", spec1);
+      vegaEmbed("#vis3", spec2);
 
     </script>
   </body>

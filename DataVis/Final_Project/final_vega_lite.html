@@ -8,7 +8,12 @@
   </head>
   <body>
     <h2>Premier League 24/25 Positions by Gameweek</h2>
-    <div id="vis1" style="height:100vh; width:100vw;"></div>
+    <div style="width: 650px; text-align: center;">
+      <label for="gameweekSlider">Gameweek: <span id="gameweekValue">1</span></label><br>
+      <input id="gameweekSlider" type="range" min="1" max="38" step="1" value="1" style="width: 650px;">
+      
+      <div id="vis1" style="height:600px; width:650px; height:100vh;"></div>
+    </div>
     <h2>Premier League 24/25 Goals Scored Breakdown</h2>
     <div id="vis2" style="height:100vh; width:100vw;"></div>
     <h2>Premier League 24/25 Goals Conceded Breakdown</h2>
@@ -22,7 +27,7 @@
           {
             "name": "Gameweek",
             "value": 1,
-            "bind": {"input": "range", "min": 1, "max": 38, "step": 1}
+            //"bind": {"input": "range", "min": 1, "max": 38, "step": 1}
           }
         ],
 
@@ -152,7 +157,7 @@
               },
               {
                 "name": "hoverTeam",
-                "select": {"type": "point", "on": "mouseover", "clear": "mouseout"}
+                "select": {"type": "point", "fields": ["Team"], "on": "mouseover", "clear": "mouseout"}
               }
             ],
             "mark": {
@@ -173,11 +178,11 @@
                 "value": "lightgray"
               },
               "stroke": {
-                "condition": {"param": "hoverTeam", "value": "black"},
+                "condition": {"test": "hoverTeam && datum.Team == hoverTeam.Team", "value": "black"},
                 "value": null
               },
               "strokeWidth": {
-                "condition": {"param": "hoverTeam", "value": 2},
+                "condition": {"test": "hoverTeam && datum.Team == hoverTeam.Team", "value": 2},
                 "value": null
               },
               "opacity": {
@@ -270,7 +275,7 @@
               },
               {
                 "name": "hoverTeam",
-                "select": {"type": "point", "on": "mouseover", "clear": "mouseout"}
+                "select": {"type": "point", "fields": ["Team"], "on": "mouseover", "clear": "mouseout"}
               }
             ],
             "mark": {
@@ -291,11 +296,11 @@
                 "value": "lightgray",
               },
               "stroke": {
-                "condition": {"param": "hoverTeam", "value": "black"},
+                "condition": {"test": "hoverTeam && datum.Team == hoverTeam.Team", "value": "black"},
                 "value": null
               },
               "strokeWidth": {
-                "condition": {"param": "hoverTeam", "value": 2},
+                "condition": {"test": "hoverTeam && datum.Team == hoverTeam.Team", "value": 2},
                 "value": null
               },
               "opacity": {
@@ -375,8 +380,18 @@
         ]
       };
 
-      
-      vegaEmbed("#vis1", spec);
+      vegaEmbed('#vis1', spec).then(result => {
+        const view = result.view;
+
+        const slider = document.getElementById('gameweekSlider');
+        const label = document.getElementById('gameweekValue');
+
+        slider.addEventListener('input', (e) => {
+          const val = +e.target.value;
+          label.textContent = val;
+          view.signal('Gameweek', val).run();
+        });
+      });
       vegaEmbed("#vis2", spec1);
       vegaEmbed("#vis3", spec2);
 

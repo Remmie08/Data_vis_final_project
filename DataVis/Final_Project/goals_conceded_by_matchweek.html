@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Team Goals Conceded By Matchweek</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@6.1.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@6.2.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@7.0.2"></script>
+  </head>
+  <body>
+    <div id="vis"></div>
+
+    <script type="text/javascript">
+      var yourVlSpec = {
+        $schema: 'https://vega.github.io/schema/vega-lite/v6.json',
+        title: 'Goals Conceded By Matchweek',
+        data: {"url": "csv_files/PremierLeague24_25(Goals_Conceded_By_Round).csv"},
+        params: [{
+          name: "teamSelect",
+          value: "Arsenal", // Default team
+          bind: {
+            input: "select",
+            options: [
+              "Arsenal", "Aston Villa", "Bournemouth", "Brentford", 
+              "Brighton", "Chelsea", "Crystal Palace", "Everton",
+              "Fulham", "Liverpool", "Manchester City", "Manchester Utd",
+              "Newcastle Utd", "Nott'ham Forest", "Tottenham", "West Ham", "Wolves"
+            ]
+          }
+        }],
+        transform: [{
+          filter: "datum.Team == teamSelect"
+        }],
+        mark: {
+          type: "line",
+          point: true,
+          color: "steelblue"
+        },
+        encoding: {
+          x: {
+            field: 'Round',
+            type: 'ordinal',
+            title: 'Matchweek'
+          },
+          y: {
+            field: 'Goals_Conceded',
+            type: 'quantitative',
+            title: 'Goals Conceded'
+          },
+          tooltip: [
+            {field: "Team", type: "nominal"},
+            {field: "Round", type: "ordinal"},
+            {field: "Goals_Conceded", type: "quantitative"}
+          ]
+        }
+      };
+      vegaEmbed('#vis', yourVlSpec);
+    </script>
+  </body>
+</html>

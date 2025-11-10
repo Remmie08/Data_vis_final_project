@@ -9,6 +9,7 @@
   <body>
     <div id="vis1" style="height:100vh; width:100vw;"></div>
     <div id="vis2" style="height:100vh; width:100vw;"></div>
+    <div id="vis3" style="height:100vh; width:100vw;"></div>
 
     <script type="text/javascript">
       var spec = {
@@ -220,9 +221,87 @@
           }
         ]
       };
+      var spec2 = {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "hconcat": [
+          {
+            "title": "Premier League Team Goals Conceded",
+            "width": 400,
+            "height": 400,
+            "data": {"url": "csv_files/PremierLeague24_25(Goals_Conceded).csv"},
+            "params": [
+              {
+                "name": "teamSelect",
+                "select": {"type": "point", "fields": ["Team"], "on": "click"}
+              }
+            ],
+            "mark": "bar",
+            "encoding": {
+              "y": {"field": "Team", "type": "nominal", "sort": "-x"},
+              "x": {"field": "Goals_Conceded", "type": "quantitative"},
+              "color": {
+                "condition": {
+                  "param": "teamSelect",
+                  "field": "Team",
+                  "type": "nominal",
+                  "scale": {"scheme": "category20"},
+                  "legend": null
+                },
+                "value": "lightgray"
+              },
+              "opacity": {
+                "condition": {"param": "teamSelect", "value": 1},
+                "value": 0.3
+              }
+            }
+          },
+
+          {
+            "title": "Teams That Scored Against Selected Team",
+            "width": 400,
+            "height": 400,
+            "data": {"url": "csv_files/PremierLeague24_25(Opposition_Scores).csv"},
+            "transform": [
+              {
+                "filter": "teamSelect.Team && datum.Opponent == teamSelect.Team[0] "
+              }
+            ],
+            "mark": "bar",
+            "encoding": {
+              "y": {"field": "Team", "type": "nominal", "sort": "-x", "axis": {"title": "Opponent Who Scored"}},
+              "x": {"field": "Goals_Scored", "type": "quantitative", "axis": {"title": "Goals"}},
+              "color": {"value": "steelblue"}
+            }
+          },
+          {
+            "title": "Goals Conceded by Matchweek",
+            "width": 400,
+            "height": 400,
+            "data": {"url": "csv_files/PremierLeague24_25(Goals_Conceded_By_Round).csv"},
+            "transform": [
+              {"filter": "teamSelect.Team && datum.Team == teamSelect.Team[0]"},
+            ],
+            "mark": {"type": "line", "point": true},
+            "encoding": {
+              "x": {
+                "field": "Round",
+                "type": "ordinal",
+                "axis": {"title": "MW"},
+                "sort": "ascending"
+              },
+              "y": {
+                "field": "Goals_Conceded",
+                "type": "quantitative",
+                "axis": {"title": "Goals Conceded"}
+              },
+            }
+          }
+        ]
+      };
 
       vegaEmbed("#vis1", spec);
       vegaEmbed("#vis2", spec1)
+      vegaEmbed("#vis3", spec2)
 
     </script>
   </body>
